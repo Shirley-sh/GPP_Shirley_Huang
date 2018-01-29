@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerShip : MonoBehaviour {
-
+public class Bullet : MonoBehaviour {
+    public float lifespan;
 	// Use this for initialization
 	void Start () {
 		
@@ -11,6 +11,9 @@ public class PlayerShip : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        lifespan -= Time.deltaTime;
+        if(lifespan<=0){
+            Destroy(gameObject);
+        }
 	}
 }

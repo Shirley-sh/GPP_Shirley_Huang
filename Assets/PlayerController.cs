@@ -18,20 +18,15 @@ public class PlayerController : MonoBehaviour {
     void Update(){
         if (Input.GetMouseButtonDown(0))
             ShootBullet();
-    
     }
 
     void FixedUpdate(){
         Move();
         MouseLook();
-
-
-
     }
 
     void MouseLook(){
         Vector3 lookPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
         lookPos = lookPos - transform.position;
         float angle = Mathf.Atan2(lookPos.y, lookPos.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.AngleAxis(angle, Vector3.forward), Time.deltaTime * rotationSpeed);
@@ -48,8 +43,6 @@ public class PlayerController : MonoBehaviour {
     void ShootBullet(){
         GameObject bulletInstance = Instantiate(bullet, transform.position, transform.rotation);
         bulletInstance.GetComponent<Rigidbody2D>().AddForce(transform.right * shootForce,ForceMode2D.Impulse);
-        Debug.Log(transform.forward);
-        //bulletInstance.GetComponent<Rigidbody2D>().AddForce(new Vector2(1,0));
 
     }
 }
