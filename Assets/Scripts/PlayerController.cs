@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
+    public bool debug;
     public float moveSpeed;
     public float rotationSpeed;
     public float shootForce;
@@ -44,5 +45,18 @@ public class PlayerController : MonoBehaviour {
         GameObject bulletInstance = Instantiate(bullet, transform.position, transform.rotation);
         bulletInstance.GetComponent<Rigidbody2D>().AddForce(transform.right * shootForce,ForceMode2D.Impulse);
 
+    }
+
+    void Die(){
+        if(debug){
+            gameObject.SetActive(false);
+        }
+      
+    }
+
+    void OnTriggerEnter2D (Collider2D collision){
+        if(collision.gameObject.CompareTag("EnemyBullet")){
+            Die();
+        }    
     }
 }
