@@ -14,6 +14,7 @@ public abstract class EnemyBase : MonoBehaviour{
     Rigidbody2D rd;
     GameObject player;
     float attackTimer;
+    bool isAlive=true;
 
 
     // Use this for initialization
@@ -22,6 +23,7 @@ public abstract class EnemyBase : MonoBehaviour{
         player = GameObject.FindWithTag("Player");
         rd = gameObject.GetComponent<Rigidbody2D>();
         attackTimer = 0;
+        isAlive = true;
     }
 
     // Update is called once per frame
@@ -75,13 +77,16 @@ public abstract class EnemyBase : MonoBehaviour{
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision) {
-        Debug.Log("Hit Enemy");
         if (collision.gameObject.CompareTag("PlayerBullet")) {
             Die();
         }
     }
 
     protected virtual void Die(){
-        Destroy(gameObject);
+        isAlive = false;
+    }
+
+    public bool GetIsAlive(){
+        return isAlive;
     }
 }

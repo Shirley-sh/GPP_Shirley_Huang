@@ -6,6 +6,7 @@ public class EnemyBomber : EnemyBase {
 
     protected override void Start(){
         base.Start();
+
     }
 
     protected override void Update(){
