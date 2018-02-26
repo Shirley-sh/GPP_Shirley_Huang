@@ -144,6 +144,7 @@ MonoBehaviour:
     type: 2}
   enemyShooter: {fileID: 1694582000797128, guid: 72280aefe02584fcaaf8422899aa03dc,
     type: 2}
+  enemyBoss: {fileID: 1486422530687114, guid: b72605613ce6e464c9f854fefb8a49e9, type: 2}
   waveInterval: 10
 --- !u!4 &28917890
 Transform:
@@ -404,6 +405,7 @@ GameObject:
   - component: {fileID: 1598922199}
   - component: {fileID: 1598922198}
   - component: {fileID: 1598922197}
+  - component: {fileID: 1598922201}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -475,6 +477,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1598922201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1598922196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 6138559aa1ab444c7ae5d9fbbffeca62, type: 2}
 --- !u!1 &1748251844
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,6 +554,7 @@ MonoBehaviour:
   moveSpeed: 20
   rotationSpeed: 5
   shootForce: 0.12
+  shootInterval: 0.2
   bullet: {fileID: 1706148750309810, guid: 49148c9117ec54722aef0f2c1baad573, type: 2}
 --- !u!4 &2016452885
 Transform:

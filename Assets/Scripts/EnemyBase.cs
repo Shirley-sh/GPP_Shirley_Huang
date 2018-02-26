@@ -1,6 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GC;
+
+
+public class EnemyDie : GameEvent {
+    public readonly GameObject Enemy;
+
+    public EnemyDie(GameObject e) {
+        Enemy = e;
+    }
+}
 
 public abstract class EnemyBase : MonoBehaviour{
 
@@ -14,11 +24,12 @@ public abstract class EnemyBase : MonoBehaviour{
     Rigidbody2D rd;
     GameObject player;
     float attackTimer;
-    bool isAlive=true;
+    protected bool isAlive=true;
 
 
     // Use this for initialization
     protected virtual void Start(){
+        EventManager.Instance.Register<PlayerPoweredUp>(OnPlayerPowerUp);
         bullet = bulletGO.GetComponent<Bullet>();
         player = GameObject.FindWithTag("Player");
         rd = gameObject.GetComponent<Rigidbody2D>();
@@ -84,9 +95,17 @@ public abstract class EnemyBase : MonoBehaviour{
 
     protected virtual void Die(){
         isAlive = false;
+        EventManager.Instance.UnRegister<PlayerPoweredUp>(OnPlayerPowerUp);
+        EventManager.Instance.Fire(new EnemyDie(gameObject));
     }
 
     public bool GetIsAlive(){
         return isAlive;
     }
+
+    protected virtual void OnPlayerPowerUp(GameEvent e){
+        var poweredUpEvent = e as PlayerPoweredUp;
+        Debug.Log("Catched powered up: "+poweredUpEvent.Player.name);
+    }
+
 }

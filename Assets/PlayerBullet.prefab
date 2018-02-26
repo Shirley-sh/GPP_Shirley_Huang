@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4520798536775392}
   - component: {fileID: 212841304677940630}
   - component: {fileID: 50015638979497892}
-  - component: {fileID: 114698494447775934}
+  - component: {fileID: 114943212073845640}
   - component: {fileID: 58351945895881296}
   m_Layer: 0
   m_Name: PlayerBullet
@@ -78,7 +78,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.07
---- !u!114 &114698494447775934
+--- !u!114 &114943212073845640
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -86,7 +86,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1706148750309810}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be84d3a5688264c708f05b534b49df95, type: 3}
+  m_Script: {fileID: 11500000, guid: 3a256ce64b68d4da3be3733573c1fde3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   lifespan: 3

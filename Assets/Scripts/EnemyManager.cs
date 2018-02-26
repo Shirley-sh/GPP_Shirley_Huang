@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour {
     public GameObject enemyBomber;
     public GameObject enemyShooter;
+    public GameObject enemyBoss;
     public float waveInterval;
     private float waveTimer;
     private List<GameObject> enemies;
@@ -42,6 +43,11 @@ public class EnemyManager : MonoBehaviour {
             InstantiateBomberWave();
         } else {
             InstantiateShooterWave();
+        }
+        if (Random.Range(0f, 1f) < 0.5) {
+            InstantiateBossWaveHorizontal();
+        } else {
+            InstantiateBossWaveVertical();
         }
     }
 
@@ -88,6 +94,38 @@ public class EnemyManager : MonoBehaviour {
         enemies.Add(e2);
         enemies.Add(e3);
         enemies.Add(e4);
+    }
+
+    void InstantiateBossWaveVertical() {
+        float xOffset = 3;
+        GameObject e1 = Instantiate(enemyBoss,
+                            new Vector3(0, 0, 0),
+                            transform.rotation);
+        GameObject e2 = Instantiate(enemyBoss,
+                                    new Vector3(xOffset, 0, 0),
+                                    transform.rotation);
+        GameObject e3 = Instantiate(enemyBoss,
+                                    new Vector3(-xOffset, 0, 0),
+                                    transform.rotation);
+        enemies.Add(e1);
+        enemies.Add(e2);
+        enemies.Add(e3);
+    }
+
+    void InstantiateBossWaveHorizontal() {
+        float yOffset = 2;
+        GameObject e1 = Instantiate(enemyBoss,
+                            new Vector3(0, 0, 0),
+                            transform.rotation);
+        GameObject e2 = Instantiate(enemyBoss,
+                                    new Vector3(0, yOffset, 0),
+                                    transform.rotation);
+        GameObject e3 = Instantiate(enemyBoss,
+                                    new Vector3(0, -yOffset, 0),
+                                    transform.rotation);
+        enemies.Add(e1);
+        enemies.Add(e2);
+        enemies.Add(e3);
     }
 
 }

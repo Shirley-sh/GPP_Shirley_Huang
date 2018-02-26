@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 70050175637788126}
   m_Layer: 0
   m_Name: Enemy Shooter
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -122,7 +122,7 @@ MonoBehaviour:
   moveSpeed: 3
   rotationSpeed: 1.26
   shootForce: 0.1
-  attackInterval: 3
+  attackInterval: 1.5
 --- !u!212 &212308918339600954
 SpriteRenderer:
   m_ObjectHideFlags: 1

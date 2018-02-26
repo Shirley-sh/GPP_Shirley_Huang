@@ -1,24 +1,44 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GC;
+
+public class PlayerPoweredUp : GameEvent{
+    public readonly GameObject Player;
+
+    public PlayerPoweredUp(GameObject player){
+        Player = player;
+    }
+}
 
 public class PlayerController : MonoBehaviour {
     public bool debug;
     public float moveSpeed;
     public float rotationSpeed;
     public float shootForce;
+    public float shootInterval;
     public GameObject bullet;
     Rigidbody2D rd;
     Vector2 AxisInput;
-
+    float shootTimer;
 
     void Start(){
         rd = gameObject.GetComponent<Rigidbody2D>();
+        StartCoroutine(PowerUp());
     }
 
     void Update(){
-        if (Input.GetMouseButtonDown(0))
-            ShootBullet();
+        if(Input.GetMouseButtonDown(0)){
+            shootTimer = shootInterval;
+        }
+        if(Input.GetMouseButton(0)){
+            shootTimer += Time.deltaTime;
+            if(shootTimer>=shootInterval){
+                ShootBullet();
+                shootTimer = 0;
+            }
+
+        }
     }
 
     void FixedUpdate(){
@@ -42,6 +62,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     void ShootBullet(){
+
         GameObject bulletInstance = Instantiate(bullet, transform.position, transform.rotation);
         bulletInstance.GetComponent<Rigidbody2D>().AddForce(transform.right * shootForce,ForceMode2D.Impulse);
 
@@ -58,5 +79,10 @@ public class PlayerController : MonoBehaviour {
         if(collision.gameObject.CompareTag("EnemyBullet")){
             Die();
         }    
+    }
+
+    IEnumerator PowerUp(){
+        yield return new WaitForSeconds(1);
+        EventManager.Instance.Fire(new PlayerPoweredUp(gameObject));
     }
 }
