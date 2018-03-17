@@ -1,20 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GC;
 
-public class EnemyBoss : EnemyBase {
 
-	// Use this for initialization
-	protected override void Start () {
+public class EnemyBoss : EnemyBase  {
+    
+
+    // Use this for initialization
+    protected override void Start() {
         base.Start();
-        EventManager.Instance.Register<EnemyDie>(OnEnemyDie);
-	}
+        Task appear = new AppearTask();
+        Services.TaskManager.AddTask(appear);
+
+    }
 
 
     // Update is called once per frame
     protected override void Update() {
-
+    
     }
 
 
@@ -24,24 +27,42 @@ public class EnemyBoss : EnemyBase {
     }
 
     protected override void Attack() {
-        ShootBullet(0);
-        ShootBullet(45);
-        ShootBullet(90);
-        ShootBullet(135);
-        ShootBullet(180);
-        ShootBullet(-45);
-        ShootBullet(-90);
-        ShootBullet(-135);
+        float direction = Random.Range(0, 360f);
+        ShootBullet(direction);
 
     }
 
     protected override void Die() {
-        EventManager.Instance.UnRegister<EnemyDie>(OnEnemyDie);
         isAlive = false;
     }
 
+    void Appear(){
+        
+    }
 
-    void OnEnemyDie(GameEvent e){
-        Attack();
+    void Spawn() {
+
+    }
+
+    void Fire() {
+
+    }
+
+    void Chase() {
+
     }
 }
+
+class AppearTask : Task {
+    protected override void OnAbort() { }
+    protected override  void OnSuccess() { }
+    protected override  void OnFail() { }
+
+    protected override  void Init() { }
+    internal override  void Update() {
+        
+    }
+    protected override  void CleanUp() { }
+}
+
+

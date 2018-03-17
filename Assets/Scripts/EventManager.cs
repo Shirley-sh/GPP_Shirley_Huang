@@ -2,54 +2,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GC {
-    public abstract class GameEvent {
-        public delegate void Handler(GameEvent e);
+public abstract class GameEvent {
+    public delegate void Handler(GameEvent e);
+}
+
+
+public class EventManager {
+
+    private readonly Dictionary<System.Type, GameEvent.Handler> _handlersDict = new Dictionary<System.Type, GameEvent.Handler>();
+
+    public void Register<Event>(GameEvent.Handler handler) where Event: GameEvent {
+        System.Type t = typeof(Event);
+        if(_handlersDict.ContainsKey(t)){
+            _handlersDict[t] += handler;
+        }else{
+            _handlersDict[t] = handler;
+        }
     }
 
-
-    public class EventManager {
-
-        private readonly Dictionary<System.Type, GameEvent.Handler> _handlersDict = new Dictionary<System.Type, GameEvent.Handler>();
-
-        static private EventManager _instance;     
-        static public EventManager Instance { 
-            get {
-                    if (_instance == null) {             
-                        _instance = new EventManager();         
-                    }         
-                    return _instance;
-                } 
-        }  
-
-        public void Register<Event>(GameEvent.Handler handler) where Event: GameEvent {
-            System.Type t = typeof(Event);
-            if(_handlersDict.ContainsKey(t)){
-                _handlersDict[t] += handler;
+    public void UnRegister<Event>(GameEvent.Handler handler) where Event : GameEvent {
+        System.Type t = typeof(Event);
+        GameEvent.Handler handlers;
+        if(_handlersDict.TryGetValue(t,out handlers)){
+            handlers -= handler;
+            if(handlers == null){
+                _handlersDict.Remove(t);
             }else{
-                _handlersDict[t] = handler;
+                _handlersDict[t] = handlers;
             }
         }
+    }
 
-        public void UnRegister<Event>(GameEvent.Handler handler) where Event : GameEvent {
-            System.Type t = typeof(Event);
-            GameEvent.Handler handlers;
-            if(_handlersDict.TryGetValue(t,out handlers)){
-                handlers -= handler;
-                if(handlers == null){
-                    _handlersDict.Remove(t);
-                }else{
-                    _handlersDict[t] = handlers;
-                }
-            }
-        }
-
-        public void Fire(GameEvent e) {
-            System.Type t = e.GetType();
-            GameEvent.Handler handlers;
-            if(_handlersDict.TryGetValue(t,out handlers)){
-                handlers(e);
-            }
+    public void Fire(GameEvent e) {
+        System.Type t = e.GetType();
+        GameEvent.Handler handlers;
+        if(_handlersDict.TryGetValue(t,out handlers)){
+            handlers(e);
         }
     }
 }
+

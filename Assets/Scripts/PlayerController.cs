@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GC;
+
 
 public class PlayerPoweredUp : GameEvent{
     public readonly GameObject Player;
@@ -83,6 +83,6 @@ public class PlayerController : MonoBehaviour {
 
     IEnumerator PowerUp(){
         yield return new WaitForSeconds(1);
-        EventManager.Instance.Fire(new PlayerPoweredUp(gameObject));
+        Services.EventManager.Fire(new PlayerPoweredUp(gameObject));
     }
 }

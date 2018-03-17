@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour {
     public float lifespan;
+    public int power;
 	// Use this for initialization
 	void Start () {
 		

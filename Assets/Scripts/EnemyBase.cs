@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GC;
 
 
 public class EnemyDie : GameEvent {
@@ -14,12 +13,15 @@ public class EnemyDie : GameEvent {
 
 public abstract class EnemyBase : MonoBehaviour{
 
-    public GameObject bulletGO;
+
     public float moveSpeed;
+    public float closestDistance;
     public float rotationSpeed;
     public float shootForce;
     public float attackInterval;
+    public int hp;
 
+    GameObject bulletGO;
     Bullet bullet;
     Rigidbody2D rd;
     GameObject player;
@@ -29,7 +31,8 @@ public abstract class EnemyBase : MonoBehaviour{
 
     // Use this for initialization
     protected virtual void Start(){
-        EventManager.Instance.Register<PlayerPoweredUp>(OnPlayerPowerUp);
+        bulletGO = Resources.Load("Enemy Bullet") as GameObject;
+        Services.EventManager.Register<PlayerPoweredUp>(OnPlayerPowerUp);
         bullet = bulletGO.GetComponent<Bullet>();
         player = GameObject.FindWithTag("Player");
         rd = gameObject.GetComponent<Rigidbody2D>();
@@ -83,20 +86,42 @@ public abstract class EnemyBase : MonoBehaviour{
         bulletInstance.GetComponent<Rigidbody2D>().AddForce(shootDir*shootForce, ForceMode2D.Impulse);
     }
 
-    protected virtual void KeepDistance(GameObject target){
-        
+    protected virtual void DistanceFollow(){
+        Vector3 dir = player.transform.position - transform.position;
+        float dist = dir.magnitude;
+        if(dist<= closestDistance){
+            dir.Normalize();
+            dir *= -moveSpeed;
+            rd.AddForce(dir * moveSpeed);
+        }else{
+            FollowPlayer();
+        }
+       
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision) {
         if (collision.gameObject.CompareTag("PlayerBullet")) {
+            TakeDamage(collision.gameObject.GetComponent<BulletPlayer>().power);
             Die();
         }
     }
 
     protected virtual void Die(){
         isAlive = false;
-        EventManager.Instance.UnRegister<PlayerPoweredUp>(OnPlayerPowerUp);
-        EventManager.Instance.Fire(new EnemyDie(gameObject));
+        Services.EventManager.UnRegister<PlayerPoweredUp>(OnPlayerPowerUp);
+        Services.EventManager.Fire(new EnemyDie(gameObject));
+    }
+
+    protected virtual void UpdateAliveStatus(){
+        if (hp <= 0){
+            Die();
+        }
+    }
+
+    protected virtual void TakeDamage(int attackPower){
+        hp -= attackPower;
+        UpdateAliveStatus();
+
     }
 
     public bool GetIsAlive(){

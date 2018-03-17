@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114943212073845640}
   - component: {fileID: 58351945895881296}
   m_Layer: 0
-  m_Name: PlayerBullet
+  m_Name: Player Bullet
   m_TagString: PlayerBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifespan: 3
+  power: 0
 --- !u!212 &212841304677940630
 SpriteRenderer:
   m_ObjectHideFlags: 1

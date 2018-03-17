@@ -3,25 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyManager : MonoBehaviour {
-    public GameObject enemyBomber;
-    public GameObject enemyShooter;
-    public GameObject enemyBoss;
+    GameObject enemyBomber;
+    GameObject enemyShooter;
+    GameObject enemyBattery;
     public float waveInterval;
     private float waveTimer;
     private List<GameObject> enemies;
     // Use this for initialization
-    void Start() {
+    public void Start() {
         waveTimer = 0;
         enemies = new List<GameObject>();
+        enemyBomber = Resources.Load("Enemy Bomber") as GameObject;
+        enemyShooter = Resources.Load("Enemy Shooter") as GameObject;
+        enemyBattery  = Resources.Load("Enemy Battery") as GameObject;
     }
 
     // Update is called once per frame
-    void Update() {
+    public void Update() {
         waveTimer += Time.deltaTime;
-        if(waveTimer>=waveInterval){
-            waveTimer = 0;
-            InitNewWave();
-        }
+        //if(waveTimer>=waveInterval){
+        //    waveTimer = 0;
+        //    InitNewWave();
+        //}
 
         if(enemies.Count == 0){
             InitNewWave();
@@ -45,9 +48,9 @@ public class EnemyManager : MonoBehaviour {
             InstantiateShooterWave();
         }
         if (Random.Range(0f, 1f) < 0.5) {
-            InstantiateBossWaveHorizontal();
+            InstantiateBatteryWaveHorizontal();
         } else {
-            InstantiateBossWaveVertical();
+            InstantiateBatteryWaveVertical();
         }
     }
 
@@ -96,36 +99,32 @@ public class EnemyManager : MonoBehaviour {
         enemies.Add(e4);
     }
 
-    void InstantiateBossWaveVertical() {
+    void InstantiateBatteryWaveVertical() {
         float xOffset = 3;
-        GameObject e1 = Instantiate(enemyBoss,
-                            new Vector3(0, 0, 0),
-                            transform.rotation);
-        GameObject e2 = Instantiate(enemyBoss,
+        GameObject e2 = Instantiate(enemyBattery,
                                     new Vector3(xOffset, 0, 0),
                                     transform.rotation);
-        GameObject e3 = Instantiate(enemyBoss,
+        GameObject e3 = Instantiate(enemyBattery,
                                     new Vector3(-xOffset, 0, 0),
                                     transform.rotation);
-        enemies.Add(e1);
         enemies.Add(e2);
         enemies.Add(e3);
     }
 
-    void InstantiateBossWaveHorizontal() {
+    void InstantiateBatteryWaveHorizontal() {
         float yOffset = 2;
-        GameObject e1 = Instantiate(enemyBoss,
-                            new Vector3(0, 0, 0),
-                            transform.rotation);
-        GameObject e2 = Instantiate(enemyBoss,
+                           
+        GameObject e2 = Instantiate(enemyBattery,
                                     new Vector3(0, yOffset, 0),
                                     transform.rotation);
-        GameObject e3 = Instantiate(enemyBoss,
+        GameObject e3 = Instantiate(enemyBattery,
                                     new Vector3(0, -yOffset, 0),
                                     transform.rotation);
-        enemies.Add(e1);
         enemies.Add(e2);
         enemies.Add(e3);
     }
-
+     
+    int GetTotalNumber(){
+        return enemies.Count;
+    }
 }

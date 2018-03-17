@@ -15,7 +15,7 @@ public class EnemyShooter : EnemyBase {
 
     protected override void Move(){
         LookPlayer();
-        FollowPlayer();
+        DistanceFollow();
     }
 
     protected override void Attack(){
