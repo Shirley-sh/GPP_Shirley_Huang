@@ -2,29 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyManager : MonoBehaviour {
+public class EnemyManager{
     GameObject enemyBomber;
     GameObject enemyShooter;
     GameObject enemyBattery;
-    public float waveInterval;
-    private float waveTimer;
     private List<GameObject> enemies;
-    // Use this for initialization
-    public void Start() {
-        waveTimer = 0;
+
+    public EnemyManager() {
         enemies = new List<GameObject>();
         enemyBomber = Resources.Load("Enemy Bomber") as GameObject;
         enemyShooter = Resources.Load("Enemy Shooter") as GameObject;
         enemyBattery  = Resources.Load("Enemy Battery") as GameObject;
     }
 
-    // Update is called once per frame
     public void Update() {
-        waveTimer += Time.deltaTime;
-        //if(waveTimer>=waveInterval){
-        //    waveTimer = 0;
-        //    InitNewWave();
-        //}
 
         if(enemies.Count == 0){
             InitNewWave();
@@ -36,7 +27,7 @@ public class EnemyManager : MonoBehaviour {
             GameObject e = enemies[i];
             if (!e.GetComponent<EnemyBase>().GetIsAlive()) {
                 enemies.Remove(e);
-                Destroy(e);
+                Object.Destroy(e);
             }
         }
     }
@@ -57,18 +48,18 @@ public class EnemyManager : MonoBehaviour {
     void InstantiateBomberWave() {
         float xOffset = 4;
         float yOffset = 3;
-        GameObject e1 = Instantiate(enemyBomber,
+        GameObject e1 = Object.Instantiate(enemyBomber,
                             new Vector3(xOffset, yOffset, 0),
-                            transform.rotation);
-        GameObject e2 = Instantiate(enemyBomber,
+                                               Quaternion.identity);
+        GameObject e2 = Object.Instantiate(enemyBomber,
                                     new Vector3(xOffset, -yOffset, 0),
-                                    transform.rotation);
-        GameObject e3 = Instantiate(enemyBomber,
+                                               Quaternion.identity);
+        GameObject e3 = Object.Instantiate(enemyBomber,
                                     new Vector3(-xOffset, yOffset, 0),
-                                    transform.rotation);
-        GameObject e4 = Instantiate(enemyBomber,
+                                               Quaternion.identity);
+        GameObject e4 = Object.Instantiate(enemyBomber,
                                     new Vector3(-xOffset, -yOffset, 0),
-                                    transform.rotation);
+                                               Quaternion.identity);
         enemies.Add(e1);
         enemies.Add(e2);
         enemies.Add(e3);
@@ -81,18 +72,18 @@ public class EnemyManager : MonoBehaviour {
         float yOffset = 4;
 
 
-        GameObject e1 = Instantiate(enemyShooter,
+        GameObject e1 = Object.Instantiate(enemyShooter,
                             new Vector3(0, yOffset, 0),
-                            transform.rotation);
-        GameObject e2 = Instantiate(enemyShooter,
+                                               Quaternion.identity);
+        GameObject e2 = Object.Instantiate(enemyShooter,
                                     new Vector3(0, -yOffset, 0),
-                                    transform.rotation);
-        GameObject e3 = Instantiate(enemyShooter,
+                                               Quaternion.identity);
+        GameObject e3 = Object.Instantiate(enemyShooter,
                                     new Vector3(-xOffset, 0, 0),
-                                    transform.rotation);
-        GameObject e4 = Instantiate(enemyShooter,
+                                               Quaternion.identity);
+        GameObject e4 = Object.Instantiate(enemyShooter,
                                     new Vector3(xOffset, 0, 0),
-                                    transform.rotation);
+                                               Quaternion.identity);
         enemies.Add(e1);
         enemies.Add(e2);
         enemies.Add(e3);
@@ -101,12 +92,12 @@ public class EnemyManager : MonoBehaviour {
 
     void InstantiateBatteryWaveVertical() {
         float xOffset = 3;
-        GameObject e2 = Instantiate(enemyBattery,
+        GameObject e2 = Object.Instantiate(enemyBattery,
                                     new Vector3(xOffset, 0, 0),
-                                    transform.rotation);
-        GameObject e3 = Instantiate(enemyBattery,
+                                    Quaternion.identity);
+        GameObject e3 = Object.Instantiate(enemyBattery,
                                     new Vector3(-xOffset, 0, 0),
-                                    transform.rotation);
+                                    Quaternion.identity);
         enemies.Add(e2);
         enemies.Add(e3);
     }
@@ -114,12 +105,12 @@ public class EnemyManager : MonoBehaviour {
     void InstantiateBatteryWaveHorizontal() {
         float yOffset = 2;
                            
-        GameObject e2 = Instantiate(enemyBattery,
+        GameObject e2 = Object.Instantiate(enemyBattery,
                                     new Vector3(0, yOffset, 0),
-                                    transform.rotation);
-        GameObject e3 = Instantiate(enemyBattery,
+                                    Quaternion.identity);
+        GameObject e3 = Object.Instantiate(enemyBattery,
                                     new Vector3(0, -yOffset, 0),
-                                    transform.rotation);
+                                    Quaternion.identity);
         enemies.Add(e2);
         enemies.Add(e3);
     }

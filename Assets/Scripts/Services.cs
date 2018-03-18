@@ -25,4 +25,15 @@ public class Services{
         }
     }
 
+    private static EnemyManager _enemyManager;
+    public static EnemyManager EnemyManager {
+        get {
+            return _enemyManager;
+        }
+        set {
+            _enemyManager = value;
+        }
+    }
+
+
 }
