@@ -7,19 +7,17 @@ public class EnemyManager{
     GameObject enemyShooter;
     GameObject enemyBattery;
     private List<GameObject> enemies;
+    private List<GameObject> bosses;
 
     public EnemyManager() {
         enemies = new List<GameObject>();
+        bosses = new List<GameObject>();
         enemyBomber = Resources.Load("Enemy Bomber") as GameObject;
         enemyShooter = Resources.Load("Enemy Shooter") as GameObject;
         enemyBattery  = Resources.Load("Enemy Battery") as GameObject;
     }
 
     public void Update() {
-
-        if(enemies.Count == 0){
-            InitNewWave();
-        }
         //update enemies
 
         //remove dead enemies
@@ -30,9 +28,20 @@ public class EnemyManager{
                 Object.Destroy(e);
             }
         }
+        for (int i = bosses.Count - 1; i >= 0; i--) {
+            GameObject e = bosses[i];
+            if (!e.GetComponent<EnemyBase>().GetIsAlive()) {
+                bosses.Remove(e);
+                Object.Destroy(e);
+            }
+        }
     }
 
-    void InitNewWave(){
+    public bool hasEnemy(){
+        return enemies.Count > 0;
+    }
+
+    public void InitNewWave(){
         if (Random.Range(0f, 1f) < 0.5) {
             InstantiateBomberWave();
         } else {
@@ -115,7 +124,12 @@ public class EnemyManager{
         enemies.Add(e3);
     }
      
-    int GetTotalNumber(){
+    public int GetTotalNumber(){
         return enemies.Count;
+    }
+
+    public void AddBoss(GameObject boss){
+        bosses.Add(boss);
+        Debug.Log("Add Boss");
     }
 }
