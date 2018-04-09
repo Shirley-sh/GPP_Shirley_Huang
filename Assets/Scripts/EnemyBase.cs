@@ -99,6 +99,24 @@ public abstract class EnemyBase : MonoBehaviour{
        
     }
 
+    protected virtual bool PlayerInRange() {
+        Vector3 dir = player.transform.position - transform.position;
+        float dist = dir.magnitude;
+        return dist <= closestDistance;
+    }
+
+    protected virtual bool TargetedByPlayer(){
+        float angle = 20;
+        return Vector3.Angle(player.transform.right, transform.position - player.transform.position) < angle;
+    }
+
+    protected virtual void  Flee() {
+        var fleeDirection = (transform.position - player.transform.position).normalized;
+        fleeDirection = fleeDirection*30+ new Vector3(Random.value*10, Random.value*10,0);
+        rd.AddForce(fleeDirection * moveSpeed);
+    }
+
+
     protected virtual void OnTriggerEnter2D(Collider2D collision) {
         if (collision.gameObject.CompareTag("PlayerBullet")) {
             TakeDamage(collision.gameObject.GetComponent<BulletPlayer>().power);
