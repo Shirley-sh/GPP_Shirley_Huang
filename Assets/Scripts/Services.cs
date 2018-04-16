@@ -35,5 +35,15 @@ public class Services{
         }
     }
 
+    private static SceneManager<TransitionData> _sceneManager;
+    public static SceneManager<TransitionData> SceneManager {
+        get {
+            return _sceneManager;
+        }
+        set {
+            _sceneManager = value;
+        }
+    }
 
+    public static PrefabDB Prefabs;
 }

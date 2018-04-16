@@ -30,7 +30,7 @@ public class EnemyManager{
         }
         for (int i = bosses.Count - 1; i >= 0; i--) {
             GameObject e = bosses[i];
-            if (!e.GetComponent<EnemyBase>().GetIsAlive()) {
+            if (e!=null&&!e.GetComponent<EnemyBase>().GetIsAlive()) {
                 bosses.Remove(e);
                 Object.Destroy(e);
             }
@@ -130,6 +130,19 @@ public class EnemyManager{
 
     public void AddBoss(GameObject boss){
         bosses.Add(boss);
-        Debug.Log("Add Boss");
+    }
+
+    public void RemoveAll(){
+        for (int i = enemies.Count - 1; i >= 0; i--){
+            GameObject go = enemies[i];
+            enemies.Remove(go);
+            GameObject.Destroy(go);
+        }
+        for (int i = bosses.Count - 1; i >= 0; i--) {
+            GameObject go = bosses[i];
+            bosses.Remove(go);
+            GameObject.Destroy(go);
+        }
+
     }
 }

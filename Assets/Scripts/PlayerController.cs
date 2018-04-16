@@ -12,6 +12,7 @@ public class PlayerPoweredUp : GameEvent{
 }
 
 public class PlayerController : MonoBehaviour {
+    public int life;
     public bool debug;
     public float moveSpeed;
     public float rotationSpeed;
@@ -21,10 +22,12 @@ public class PlayerController : MonoBehaviour {
     Rigidbody2D rd;
     Vector2 AxisInput;
     float shootTimer;
+    int _life;
 
     void Start(){
         rd = gameObject.GetComponent<Rigidbody2D>();
         StartCoroutine(PowerUp());
+        _life = life;
     }
 
     void Update(){
@@ -69,20 +72,33 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Die(){
-        if(debug){
-            gameObject.SetActive(false);
-        }
+        Services.EnemyManager.RemoveAll();
+         Services.SceneManager.Swap<GameOverScene>();
+
       
     }
 
     void OnTriggerEnter2D (Collider2D collision){
         if(collision.gameObject.CompareTag("EnemyBullet")){
-            Die();
+            _life--;
+            if(_life<=0){
+                _life = 0;
+                Die();
+
+            }
         }    
     }
 
     IEnumerator PowerUp(){
         yield return new WaitForSeconds(1);
         Services.EventManager.Fire(new PlayerPoweredUp(gameObject));
+    }
+
+    public void Reset(){
+        _life = life;
+    }
+
+    public int GetLife(){
+        return _life;
     }
 }

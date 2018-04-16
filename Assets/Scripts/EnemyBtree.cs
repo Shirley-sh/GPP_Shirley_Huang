@@ -16,30 +16,27 @@ public class EnemyBtree : EnemyBase
         base.Start();
         _tree = new Tree<EnemyBtree>(new Selector<EnemyBtree>(
 
-            // (highest priority)
             //Seek
             new Sequence<EnemyBtree>( 
                 new IsPlayerAway(),
-                new Seek() 
+                new SeekAction() 
             ),
             
-            // Flee Behavior
-            new Sequence<EnemyBtree>( 
-                new IsInDanger(), 
+            // Flee 
+            new Sequence<EnemyBtree>(
+                new IsAimedByPlayer(), 
                 new IsPlayerInRange(),
                 new FleeAction() 
             ),
 
-
+            //Charge
             new Sequence<EnemyBtree>( 
                 new IsPlayerInRange(), 
-                new IsPulseNotFinished(),
-                new PulseEffect(),
-                new PreAttackAction()
-
+                new IsChargeNotFinished(),
+                new ChargeAction()
                 
             ),
-
+            //Attack
             new Sequence<EnemyBtree>(
                 new IsPlayerInRange(), 
                 new AttackAction() // Attack               
@@ -110,7 +107,7 @@ public class EnemyBtree : EnemyBase
     ////////////////////
     // Conditions
     ////////////////////
-    private class IsInDanger : Node<EnemyBtree>{
+    private class IsAimedByPlayer : Node<EnemyBtree>{
         public override bool Update(EnemyBtree enemy){
             return enemy.TargetedByPlayer();
         }
@@ -128,7 +125,7 @@ public class EnemyBtree : EnemyBase
         }
     }
 
-    private class IsPulseNotFinished: Node<EnemyBtree> {
+    private class IsChargeNotFinished: Node<EnemyBtree> {
         public override bool Update(EnemyBtree enemy) {
             return enemy.ActivatePulseTimer();
         }
@@ -138,12 +135,7 @@ public class EnemyBtree : EnemyBase
     /// Actions
     ///////////////////
     /// 
-    private class PulseEffect : Node<EnemyBtree> {
-        public override bool Update(EnemyBtree enemy) {
-            
-            return true;
-        }
-    }
+
 
     private class FleeAction : Node<EnemyBtree>{
         public override bool Update(EnemyBtree enemy){
@@ -153,7 +145,7 @@ public class EnemyBtree : EnemyBase
         }
     }
 
-    private class PreAttackAction : Node<EnemyBtree> {
+    private class ChargeAction : Node<EnemyBtree> {
         public override bool Update(EnemyBtree enemy) {
             enemy.LookPlayer();
             enemy.triggerFX();
@@ -177,7 +169,7 @@ public class EnemyBtree : EnemyBase
         }
     }
 
-    class Seek: Node<EnemyBtree>{
+    class SeekAction: Node<EnemyBtree>{
         public override bool Update(EnemyBtree enemy) {
             enemy.FollowPlayer();
             enemy.ResetPulseTimer();
